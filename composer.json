@@ -1,0 +1,21 @@
+{
+    "name": "via/wcf-api-php",
+    "description": "library for via-ebay wcf-api",
+    "type": "project",
+    "require": {
+        "symfony/var-dumper": "^3.2",
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "authors": [
+        {
+            "name": "thoffmann",
+            "email": "thoffmann@via-online.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Via\\": "src/"
+        },
+        "files": ["src/functions.php"]        
+    }
+}
