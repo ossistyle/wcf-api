@@ -29,12 +29,23 @@ class VwsClient implements VwsClientInterface
     {
         $args['config'] = [];
 
+        if (!isset($this->argDefinitions['region'])) {
+            $message = self::missing_region();
+            throw new InvalidArgumentException($message);
+        } else {
+            $value = $this->argDefinitions['region'];
+            if (!is_string($value)) {
+                $this->invalid_type('region', ['string'], $value);
+            }
+        }
+        $args['region'] = $this->argDefinitions['region'];
+
         if (!isset($this->argDefinitions['scheme'])) {
             $args['scheme'] = 'https';
         } else {
             $value = $this->argDefinitions['scheme'];
             if (!is_string($value)) {
-                $this->invalidType('scheme', 'string', $value);
+                $this->invalid_type('scheme', ['string'], $value);
             } elseif (!in_array($value, ['http', 'https'])) {
                 $message = self::invalid_scheme();
                 throw new InvalidArgumentException($message);
@@ -42,16 +53,6 @@ class VwsClient implements VwsClientInterface
             $args['scheme'] = $value;
         }
 
-        if (!isset($this->argDefinitions['region'])) {
-            $message = self::missing_region();
-            throw new InvalidArgumentException($message);
-        } else {
-            $value = $this->argDefinitions['region'];
-            if (!is_string($value)) {
-                $this->invalid_type('region', 'string', $value);
-            }
-        }
-        $args['region'] = $this->argDefinitions['region'];
 
         if (!isset($this->argDefinitions['endpoint'])) {
             $result = EndpointProvider::resolve([
@@ -83,7 +84,7 @@ class VwsClient implements VwsClientInterface
                 )
             );
         } else {
-            $message = self::missing_credentials();
+            $message = self::invalid_type('credentials', [CredentialsInterface::class, 'array'], $value);
             throw new InvalidArgumentException($message);
         }
 
@@ -133,7 +134,6 @@ class VwsClient implements VwsClientInterface
     private static function apply_endpoint($value, array &$args)
     {
         $parts = parse_url($value);
-        dump($parts);
         if (empty($parts['scheme']) || empty($parts['host'])) {
             throw new InvalidArgumentException(
                 'Endpoints must be full URIs and include a scheme and host'
@@ -156,7 +156,7 @@ EOT;
     private static function missing_region()
     {
         return <<<EOT
-A "region" configuration value is required for the ViA eBay Api.
+A "region" configuration value is required for the Api.
 EOT;
     }
 
