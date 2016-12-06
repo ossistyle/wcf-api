@@ -15,7 +15,7 @@ class Sdk
     /**
      * Get api client.
      *
-     * @return \Via\CLient
+     * @return \Via\Client
      **/
     public function getClient()
     {

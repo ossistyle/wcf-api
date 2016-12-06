@@ -1,6 +1,5 @@
-<?
-
-namespace Via;
+<?php
+namespace Via\Credentials;
 
 interface CredentialsInterface
 {

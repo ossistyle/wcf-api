@@ -4,21 +4,21 @@ namespace Via;
 class Uri implements UriInterface
 {
     /**
-     * sandbox uri
+     * sandbox uri.
      **/
     private $authUriSandbox = 'https://sandboxapi.via.de/Authentication_JSON_AppService.axd/Login';
     private $apiUriSandbox = 'https://sandboxapi.via.de/publicapi/v1/api.svc';
     private $carPartsBulkApiUriSandbox = 'https://sandboxapi.via.de/CarParts';
 
     /**
-     * live uri
+     * live uri.
      **/
     private $authUriLive = 'https://ebayapi.via.de/Authentication_JSON_AppService.axd/Login';
     private $apiUriLive = 'https://ebayapi.via.de/publicapi/v1/api.svc';
     private $carPartsApiUriLive = 'https://ebayapi.via.de/CarParts';
 
     /**
-     * Get the uri of the live authorization api
+     * Get the uri of the live authorization api.
      *
      * @return $authUriLive String
      **/
@@ -27,7 +27,7 @@ class Uri implements UriInterface
         return $this->authUriLive;
     }
     /**
-     * Get the uri of the sandbox authorization api
+     * Get the uri of the sandbox authorization api.
      *
      * @return $authUriSandbox String
      **/
@@ -36,7 +36,7 @@ class Uri implements UriInterface
         return $this->authUriSandbox;
     }
     /**
-     * Get the uri of the live api
+     * Get the uri of the live api.
      *
      * @return $apiUriLive String
      **/
@@ -45,7 +45,7 @@ class Uri implements UriInterface
         return $this->apiUriLive;
     }
     /**
-     * Get the uri of the sandbox api
+     * Get the uri of the sandbox api.
      *
      * @return $apiUriSandbox String
      **/

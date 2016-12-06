@@ -8,6 +8,13 @@ class Credentials implements CredentialsInterface
     private $password;
     private $subscriptionToken;
 
+    public function __construct($userName, $password, $subscriptionToken)
+    {
+        $this->userName = $userName;
+        $this->password = $password;
+        $this->subscriptionToken = $subscriptionToken;
+    }
+
     /**
      *
      * @return $userName
