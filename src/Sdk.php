@@ -3,7 +3,7 @@ namespace Via;
 
 class Sdk
 {
-    const VERSION = '1.0.0beta';
+    const VERSION = '0.0.1beta';
 
     private $args;
 
