@@ -7,7 +7,7 @@ use Via\Credentials\CredentialsInterface;
 use Via\Credentials\CredentialProvider;
 use Via\Endpoint\EndpointProvider;
 
-class VwsClient
+class VwsClient implements VwsClientInterface
 {
     private $argDefinitions;
     private $config;

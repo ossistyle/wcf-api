@@ -7,7 +7,7 @@ class Sdk
 
     private $args;
 
-    public function __construct($args)
+    public function __construct(array $args = [])
     {
         $this->args = $args;
     }
@@ -17,8 +17,8 @@ class Sdk
      *
      * @return \Via\VwsClient
      **/
-    public function getClient()
+    public function getClient(array $args = [])
     {
-        return new VwsClient($this->args);
+        return new VwsClient($args + $this->args);
     }
 }
