@@ -2,6 +2,7 @@
 namespace Via;
 
 use InvalidArgumentException;
+use Via\Credentials\Credentials;
 use Via\Credentials\CredentialsInterface;
 use Via\Credentials\CredentialProvider;
 use Via\Endpoint\EndpointProvider;
@@ -19,7 +20,7 @@ class VwsClient
         $this->argDefinitions = $args;
         $config = $this->resolveArgs();
         $this->credentialProvider = $config['credentials'];
-
+        $this->endpoint = $config['endpoint'];
         $this->config = $config['config'];
         $this->region = isset($config['region']) ? $config['region'] : null;
     }
@@ -47,7 +48,7 @@ class VwsClient
         } else {
             $value = $this->argDefinitions['region'];
             if (!is_string($value)) {
-                $this->invalidType('region', 'string', $value);
+                $this->invalid_type('region', 'string', $value);
             }
         }
         $args['region'] = $this->argDefinitions['region'];
@@ -55,14 +56,13 @@ class VwsClient
         if (!isset($this->argDefinitions['endpoint'])) {
             $result = EndpointProvider::resolve([
                 'region'  => $args['region'],
-                'scheme'  => $args['scheme']
+                'scheme'  => $args['scheme'],
             ]);
             $args['endpoint'] = $result['endpoint'];
         } else {
             $value = $this->argDefinitions['endpoint'];
             self::apply_endpoint($value, $args);
         }
-        $this->endpoint = $args['endpoint'];
 
         if (!isset($this->argDefinitions['credentials'])) {
             $message = self::missing_credentials();
@@ -71,20 +71,19 @@ class VwsClient
         $value = $this->argDefinitions['credentials'];
         if ($value instanceof CredentialsInterface) {
             $args['credentials'] = CredentialProvider::fromCredentials($value);
-        } elseif (is_array($value)) {
-            if (isset($value['userName'])
+        } elseif (is_array($value)
+                && isset($value['userName'])
                 && isset($value['password'])
                 && isset($value['subscriptionToken'])) {
-                $args['credentials'] = CredentialProvider::fromCredentials(
-                    new Credentials(
-                        $value['userNamekey'],
-                        $value['password'],
-                        $value['subscriptionToken']
-                    )
-                );
-            }
+            $args['credentials'] = CredentialProvider::fromCredentials(
+                new Credentials(
+                    $value['userName'],
+                    $value['password'],
+                    $value['subscriptionToken']
+                )
+            );
         } else {
-            $message = self::_missing_credentials();
+            $message = self::missing_credentials();
             throw new InvalidArgumentException($message);
         }
 
@@ -118,19 +117,20 @@ class VwsClient
      *
      * @param string $name     Name of the value being validated.
      * @param mixed  $provided The provided value.
+     *
      * @throws \InvalidArgumentException
      */
-    private function invalidType($name, $expectedType, $provided)
+    private function invalid_type($name, $expectedType, $provided)
     {
         $expected = implode('|', $expectedType);
         $msg = "Invalid configuration value "
-            . "provided for \"{$name}\". Expected {$expected}, but got "
-            . describe_type($provided) . "";
+            ."provided for \"{$name}\". Expected {$expected}, but got "
+            .describe_type($provided)."";
 
         throw new InvalidArgumentException($msg);
     }
 
-    public static function apply_endpoint($value, array &$args)
+    private static function apply_endpoint($value, array &$args)
     {
         $parts = parse_url($value);
         dump($parts);
