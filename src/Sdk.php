@@ -15,7 +15,7 @@ class Sdk
     /**
      * Get api client.
      *
-     * @return \Via\Client
+     * @return \Via\VwsClient
      **/
     public function getClient()
     {
