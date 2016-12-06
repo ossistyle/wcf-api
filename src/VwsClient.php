@@ -136,7 +136,7 @@ class VwsClient implements VwsClientInterface
         $parts = parse_url($value);
         if (empty($parts['scheme']) || empty($parts['host'])) {
             throw new InvalidArgumentException(
-                'Endpoints must be full URIs and include a scheme and host'
+                'Endpoint must be full URI and include a scheme and host'
             );
         }
 

@@ -127,6 +127,21 @@ class VwsClientTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Endpoint must be full URI and include a scheme and host
+     */
+    public function testEnsureEndpointMustBeUri()
+    {
+        $config = [
+            'credentials'  => new Credentials('user', 'pass', 'token'),
+            'region'       => 'sandbox',
+            'endpoint'     => 'example.com'
+        ];
+
+        $client = new VwsClient($config);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage A "scheme" configuration value must be one of those "http" or "https".
      */
     public function testEnsureInvalidSchemeFails()
